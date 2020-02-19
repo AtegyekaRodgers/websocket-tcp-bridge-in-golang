@@ -91,13 +91,13 @@ func newConnectHandler(w http.ResponseWriter, r *http.Request) {
 			//athenticate the client by retrieving credentials from database
 			db := dbconnect()
 			defer db.Close()
-			selecQuery := fmt.Sprintf("SELECT * FROM userstable WHERE username="+uname+" AND password="+md5(pword)+")
+			selecQuery := fmt.Sprintf("SELECT * FROM userstable WHERE username='%s' AND password='%s' ",uname,md5(pword))
 			queryResult, err := db.Query(selecQuery)
 			if err != nil {  fmt.Println(err.Error())  }  
 			defer queryResult.Close() 
 			userExists := 0
 			for queryResult.Next(){ 
-				++userExists
+				userExists =1 
 				break
 			}
 			if userExists {
@@ -217,7 +217,7 @@ func sessionManagerStart(){
 	var clients = make(map[*newClient]bool)
 	for { 
 		select {
-			case var newcon, err = tcpserver.Accept():  //is there a new connection request? skip if no - (non blocking)
+			case (var newcon, err = tcpserver.Accept()):  //is there a new connection request? skip if no - (non blocking)
 			if err != nil {
 				fmt.Println(err) 
 			}else
@@ -230,7 +230,7 @@ func sessionManagerStart(){
 						var x = 0
 						for client := range clients {  
 							if clients.SessionId==string(Buf)  {
-								++x  //if the session id is found, increament x ; otherwise x remains 0
+								x=1  //if the session id is found, increament x ; otherwise x remains 0
 								break
 							} 
 						}
