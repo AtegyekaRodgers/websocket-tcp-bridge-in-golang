@@ -359,8 +359,11 @@ You can change the message and send multiple times.
 </body>
 </html>
 `))
-```
+
 //NOTE: this code is not yet fully complete, some sections are not yet tested. Eg the session manager, i plan to 
 //redesign it to use a database instead.
 //However if you follow through the code you can easily understand the whole logic and then improve on those incomlete sections while 
 //am also continuing to add more code 
+
+```
+
