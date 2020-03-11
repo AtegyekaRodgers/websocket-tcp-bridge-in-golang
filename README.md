@@ -5,3 +5,6 @@ through a Wireless Sensor Network gateway which needs to use strictly TCP protoc
 
 This 'bridge' server is written in golang, communicating with another TCP server developed in node js, which in turn communiactes to the gateway device (via cellular network using GSM) installed at a weather station in the range of a wireless sensor network for capturing weather information from environment detcting sensors.
 
+#### Code
+``` 
+```
