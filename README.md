@@ -7,6 +7,7 @@ This 'bridge' server is written in golang, communicating with another TCP server
 
 #### Code
 ``` package main
+package main
 
 import (
 	"flag" 
