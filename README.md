@@ -3,7 +3,7 @@
 The purpose of this project is to enable us communicate with a TCP server using a web browser. This is very useful when you need to remotely control an IoT device 
 through a Wireless Sensor Network gateway which needs to use strictly TCP protocol to send/receive information to/from a web server.
 
-This 'bridge' server is written in golang, communicating with another TCP server developed in node js, which in turn communiactes to the gateway device (via cellular network using GSM) installed at a weather station in the range of a wireless sensor network for capturing weather information from environment detcting sensors.
+This 'bridge' server is written in golang, communicating with another TCP server developed in node js, which in turn communiactes to the gateway device (via cellular network using GSM) installed at a weather station in the range of a wireless sensor network for capturing weather information from environment detecting sensors.
 
 #### Code
 ``` package main
@@ -21,13 +21,13 @@ import (
 
 var addr = flag.String("addr", "0.0.0.0:10026", "websocket-tcp bridge service address")
 
-var upgrader = websocket.Upgrader{} // use default options 
+var upgrader = websocket.Upgrader{} // use default options for websocket
 
 type Wc struct {
 	Websocket *websocket.Conn
 }
 
-
+//The following method creates a bridge for two-way communication between a TCP listener and the web client.
 func (wscon *Wc) bridge(tcpcon net.Conn, mt int) {
 	resBuf := make([]byte, 4096)
 	defer wscon.Websocket.Close()
@@ -49,6 +49,7 @@ func (wscon *Wc) bridge(tcpcon net.Conn, mt int) {
 }
 
 
+//A multi-threaded handler making use of go routines.
 func createNewBridge(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	webclient, _ := upgrader.Upgrade(w, r, nil)   
@@ -71,8 +72,8 @@ func createNewBridge(w http.ResponseWriter, r *http.Request) {
 		   	 log.Println("Error while connecting to TCP-: ",err)
 		   }else{
 				connectedToTcp = true
-		   	 /********************************************************/
-		   	 wc := &Wc{Websocket:webclient}      /********************/ 
+		     /********************************************************/
+		     wc := &Wc{Websocket:webclient}      /********************/ 
 		     go wc.bridge(tcpcon, datatype)      /*******Bridge*******/
 		     /********************************************************/
 			}
